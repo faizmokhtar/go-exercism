@@ -2,18 +2,18 @@ package hamming
 
 import "errors"
 
+// Distance calculate the Hamming distance between two strands
 func Distance(a, b string) (int, error) {
-	var (
-		distance = 0
-		runeA    = []rune(a)
-		runeB    = []rune(b)
-	)
+	runeA := []rune(a)
+	runeB := []rune(b)
+
 	if len(runeA) != len(runeB) {
-		return 0, errors.New("Strands don't have equal length")
+		return 0, errors.New("strands don't have equal length")
 	}
 
-	for i, rune := range runeA {
-		if rune != runeB[i] {
+	distance := 0
+	for i, r := range runeA {
+		if r != runeB[i] {
 			distance++
 		}
 	}
