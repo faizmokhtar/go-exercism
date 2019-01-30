@@ -1,15 +1,27 @@
-// This is a "stub" file.  It's a little start on your solution.
-// It's not a complete solution though; you have to write some code.
-
-// Package acronym should have a package comment that summarizes what it's about.
-// https://golang.org/doc/effective_go.html#commentary
+// Package acronym implements a simple library to create acronym
 package acronym
 
-// Abbreviate should have a comment documenting it.
+import (
+	"bytes"
+	"strings"
+	"unicode"
+
+	"golang.org/x/text/unicode/rangetable"
+)
+
+// Abbreviate a string into an acronym
 func Abbreviate(s string) string {
-	// Write some code here to pass the test suite.
-	// Then remove all the stock comments.
-	// They're here to help you get started but they only clutter a finished solution.
-	// If you leave them in, reviewers may protest!
-	return ""
+	var acronym bytes.Buffer
+	words := strings.FieldsFunc(s, isSeperator)
+
+	for _, w := range words {
+		char := strings.ToUpper(w[0:1])
+		acronym.WriteString(char)
+	}
+	return acronym.String()
+}
+
+func isSeperator(c rune) bool {
+	r := rangetable.New('-')
+	return unicode.IsSpace(c) || unicode.Is(r, c)
 }
